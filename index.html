@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lämpötilamuunnin</title>
+
+    <style> 
+        body {
+            width: 350px;
+            margin: auto;
+            margin-top: 100px; 
+            padding-top: 50px;
+            padding-left: 70px;
+            padding-right: 25px;
+            padding-bottom: 50px;
+            background-color: pink;  
+            border-color: rgb(214, 24, 183);
+            border-width: 5px;
+            border-style: double; 
+                }
+            h1 {
+                color: rgb(214, 24, 183)
+            }
+
+            @media only screen and (max-width: 600px) {
+
+            }
+
+            
+    </style>
+</head>
+<body>
+    <h1>Lämpötilamuunnin</h1>
+
+    <form id="lomake">
+
+    <select id="muuntimet" name="muuntimet">
+        <option value="info">Valitse muunnin</option>
+        <option value="celciusfahrenheit">Celcius -> Fahrenheit</option>
+        <option value="fahrenheitcelcius">Fahrenheit -> Celcius</option>
+    </select>
+    <br><br>
+
+    <label for="annalampo">Syötä lämpötila </label><br>
+    <input type="text" id="annalampo">
+    <button id="button">Muunna</button><br><br>
+
+    <input type="radio" id="1" name="desimaali" value="1">
+    <label for="1">1 desimaali</label><br>
+
+    <input type="radio" id="2" name="desimaali" value="2">
+    <label for="2">2 desimaalia</label><br>
+
+    <input type="radio" id="3" name="desimaali" value="3">
+    <label for="3">3 desimaalia</label><br><br><br>
+
+</form>
+
+    <p id="tulos">Tulos: </p>
+    <p id="huom"></p>
+
+
+    
+<script>
+
+    document.getElementById('lomake').addEventListener('submit', muunnaLampotila);
+
+    function muunnaLampotila(event) {
+        event.preventDefault()
+        document.getElementById('huom').innerHTML = ""
+
+        let valinta = document.getElementById('muuntimet').value;
+
+        let syote = document.querySelector('input').value;
+
+        if (isNaN(syote) || syote == "") {
+            alert("Syötä numero!")
+        }
+
+        let desimaali = "";
+        if(document.getElementById('1').checked == true) {
+            desimaali = "1"
+        } else if(document.getElementById('2').checked == true) {
+            desimaali = "2";
+        } else {
+            desimaali = "3";
+        }
+
+        if(valinta == "celciusfahrenheit") {
+            tulos = (syote)* 1.8 + 32;
+            document.getElementById('tulos').innerHTML = "Fahrenheitia";
+            if(tulos < -459.40) {
+                document.getElementById('huom').innerHTML = "Huom! Lämpötila on pienempi kuin absoluuttinen nollapiste!";
+            }
+
+        }
+
+        else if(valinta == "fahrenheitcelcius") {
+            tulos = (syote - 32) / 1.8;
+            if(tulos < -273.15) {
+                document.getElementById('huom').innerHTML = "Huom! Lämpötila on pienempi kuin absoluuttinen nollapiste!";
+            }
+        }
+
+        else if(valinta == "info") {
+            document.getElementById('tulos').innerHTML = "Valitse muunnin!";
+        }
+        else {
+            document.getElementById('tulos').innerHTML = "Valitse muunnin!";
+        }
+
+
+
+        switch (desimaali) {
+            case "1": 
+                document.getElementById("tulos").innerHTML = tulos.toFixed(1);
+                break;
+            
+            case "2":
+                document.getElementById("tulos").innerHTML = tulos.toFixed(2);
+                break;
+
+            default:
+                document.getElementById("tulos").innerHTML = tulos.toFixed(3);
+
+        }
+
+    }
+
+
+</script>
+</body>
+</html>
